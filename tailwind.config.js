@@ -24,9 +24,12 @@ module.exports = {
         orange: {
           DEFAULT: "#febb02",
         },
-        text_banner:{
-          DEFAULT: "#9aa1a7"
-        }
+        text_banner: {
+          DEFAULT: "#9aa1a7",
+        },
+        freeShipping: {
+          DEFAULT: "#f8f9fa",
+        },
       },
     },
   },
