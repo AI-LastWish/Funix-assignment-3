@@ -8,20 +8,24 @@ import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/detail/:id" element={<Detail />} />
-        <Route exact path="/shop" element={<Shop />} />
-        <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/checkout" element={<Checkout />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route exact path="/shop" element={<Shop />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/checkout" element={<Checkout />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

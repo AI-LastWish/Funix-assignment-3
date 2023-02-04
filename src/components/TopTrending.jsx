@@ -1,9 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { TOP_TRENDING } from "../constants/url";
+import { useAppDispatch } from "../utils/hooks";
+import { setShowPopup } from "../redux/slices/popupSlice";
 import { ColorRing } from "react-loader-spinner";
+import ProductPopup from "./ProductPopup";
+
+const actionDispatch = (dispatch) => ({
+  setShowPopup: (showPopup) => dispatch(setShowPopup(showPopup)),
+});
 
 const TopTrending = () => {
+  const showPopup = useSelector((state) => state.showPopup.showPopup);
+  const { setShowPopup } = actionDispatch(useAppDispatch());
+
+  const handleShowModal = (show) => {
+    setShowPopup(show);
+  };
+
   const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
@@ -44,7 +59,10 @@ const TopTrending = () => {
                 <li key={product?._id?.["$oid"]} className="cursor-pointer">
                   <p>{product?._id[0]?.["$oid"]}</p>
                   <div className="space-y-4">
-                    <div className="group aspect-w-2 aspect-h-1 overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 hover:cursor-pointer">
+                    <div
+                      onClick={() => handleShowModal(true)}
+                      className="group aspect-w-2 aspect-h-1 overflow-auto sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 hover:cursor-pointer"
+                    >
                       <img
                         className="object-cover object-center group-hover:opacity-75"
                         src={product?.img1}
@@ -61,7 +79,12 @@ const TopTrending = () => {
                         <h3>{product?.name}</h3>
                       </div>
                       <div className="space-y-1 text-lg font-normal leading-6 italic text-text_banner">
-                        <h3>{new Intl.NumberFormat('de-DE').format(product?.price)} VND</h3>
+                        <h3>
+                          {new Intl.NumberFormat("de-DE").format(
+                            product?.price
+                          )}{" "}
+                          VND
+                        </h3>
                       </div>
                     </div>
                   </div>
@@ -69,6 +92,9 @@ const TopTrending = () => {
               ))}
             </ul>
           </div>
+          {showPopup ? (
+            <ProductPopup open={showPopup} setOpen={handleShowModal} />
+          ) : null}
         </div>
       )}
     </>
