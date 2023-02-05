@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 export default function ProductPopup({ open, setOpen, product }) {
   const navigate = useNavigate();
 
+  
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
