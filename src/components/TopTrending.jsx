@@ -20,6 +20,11 @@ const TopTrending = () => {
   };
 
   const [products, setProducts] = useState([]);
+  const [currentProduct, setCurrentProduct] = useState(null);
+
+  const handleCurrentProduct = (curr) => {
+    setCurrentProduct(curr);
+  };
 
   const getProducts = async () => {
     const result = await axios.get(TOP_TRENDING);
@@ -60,7 +65,10 @@ const TopTrending = () => {
                   <p>{product?._id[0]?.["$oid"]}</p>
                   <div className="space-y-4">
                     <div
-                      onClick={() => handleShowModal(true)}
+                      onClick={() => {
+                        handleShowModal(true);
+                        handleCurrentProduct(product);
+                      }}
                       className="group aspect-w-2 aspect-h-1 overflow-auto sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 hover:cursor-pointer"
                     >
                       <img
@@ -92,8 +100,12 @@ const TopTrending = () => {
               ))}
             </ul>
           </div>
-          {showPopup ? (
-            <ProductPopup open={showPopup} setOpen={handleShowModal} />
+          {showPopup && currentProduct !== null ? (
+            <ProductPopup
+              open={showPopup}
+              setOpen={handleShowModal}
+              product={currentProduct}
+            />
           ) : null}
         </div>
       )}
