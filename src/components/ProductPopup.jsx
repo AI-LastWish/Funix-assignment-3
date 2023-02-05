@@ -1,11 +1,10 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  ExclamationTriangleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartFlatbed, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCartFlatbed } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProductPopup({ open, setOpen, product }) {
   return (

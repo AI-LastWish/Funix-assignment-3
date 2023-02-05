@@ -8,7 +8,7 @@ const Banner = () => {
     <div className="relative py-16">
       <div className="absolute w-full bg-gradient-to-t from-gray-100 to-transparent bottom-0 z-20" />
       <Carousel
-        autoPlay
+        // autoPlay
         infiniteLoop
         showStatus={false}
         showIndicators={false}
@@ -16,7 +16,7 @@ const Banner = () => {
         interval={5000}
       >
         <div>
-          <Slide url="./images/banner1.jpg" alt="banner-1" />
+          <Slide url="../images/banner1.jpg" alt="banner-1" />
         </div>
         <div>
           <Slide url="https://links.papareact.com/gi1" alt="gi1" />
