@@ -5,8 +5,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartFlatbed } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductPopup({ open, setOpen, product }) {
+  const navigate = useNavigate();
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -70,6 +73,7 @@ export default function ProductPopup({ open, setOpen, product }) {
                       <button
                         type="button"
                         className="inline-flex items-center border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        onClick={() => navigate(`/detail/${product?._id?.["$oid"]}`)}
                       >
                         <FontAwesomeIcon
                           className="-ml-1 h-5 w-5"
