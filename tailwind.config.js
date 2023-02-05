@@ -27,6 +27,9 @@ module.exports = {
         text_banner: {
           DEFAULT: "#9aa1a7",
         },
+        category: {
+          DEFAULT: "#f6f9f6",
+        },
         freeShipping: {
           DEFAULT: "#f8f9fa",
         },

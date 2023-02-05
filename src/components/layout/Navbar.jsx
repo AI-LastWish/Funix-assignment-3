@@ -6,8 +6,8 @@ import { faCartFlatbed, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const navigation = {
   pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
+    { name: "Company", href: "/" },
+    { name: "Shop", href: "/shop" },
   ],
 };
 
@@ -112,7 +112,7 @@ export default function Navbar() {
               </Popover.Group>
 
               {/* Logo */}
-              <a href="#" className="flex">
+              <a href="/" className="flex">
                 <span className="ml-3 block text-lg font-medium italic">
                   BOUTIQUE
                 </span>
