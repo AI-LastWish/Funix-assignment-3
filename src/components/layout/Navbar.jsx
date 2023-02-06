@@ -76,7 +76,7 @@ export default function Navbar() {
                   </a>
                 </div>
                 <div className="border-t border-gray-200 py-6 px-4">
-                  <a href="#" className="-m-2 flex items-center p-2">
+                  <a href="/login" className="-m-2 flex items-center p-2">
                     <FontAwesomeIcon className="-ml-1 h-5 w-5" icon={faUser} />
                     <span className="ml-3 block text-sm font-medium">
                       Login
@@ -133,7 +133,7 @@ export default function Navbar() {
                 </a>
 
                 <a
-                  href="#"
+                  href="/login"
                   className=" ml-6 hidden text-gray-700 hover:text-gray-800 lg:!flex lg:items-center"
                 >
                   <FontAwesomeIcon className="-ml-1 h-5 w-5" icon={faUser} />
