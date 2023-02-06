@@ -27,7 +27,7 @@ export default function SignUp() {
   };
 
   const handleValidate = (currentForm) => {
-    if (userArr?.includes((user) => user.email === currentForm.email)) {
+    if (userArr?.some((user) => user.email === currentForm.email)) {
       setErrorMsg("Email already exist! Please choose another one");
       return false;
     } else if (currentForm.password.length <= 8) {
