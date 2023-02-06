@@ -1,4 +1,5 @@
 export default function SignIn() {
+
   return (
     <div
       className="grid h-screen place-items-center w-full bg-auto"
@@ -13,7 +14,7 @@ export default function SignIn() {
               Sign In
             </h2>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -59,7 +60,7 @@ export default function SignIn() {
               <div className="font-thin text-base italic">
                 <span>Create an account?&nbsp;</span>
                 <a
-                  href="#"
+                  href="/register"
                   className="font-thin text-indigo-600 hover:text-indigo-500 "
                 >
                   Sign up
