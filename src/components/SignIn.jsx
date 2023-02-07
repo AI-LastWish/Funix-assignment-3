@@ -27,7 +27,7 @@ export default function SignIp() {
     event.preventDefault();
 
     if (handleValidate(form)) {
-      login(form.email);
+      login(userArr?.find((user) => user.email === form.email));
       navigate("/");
     }
   };

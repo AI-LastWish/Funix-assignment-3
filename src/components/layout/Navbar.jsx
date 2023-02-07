@@ -1,8 +1,13 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dialog, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { faCartFlatbed, faUser } from "@fortawesome/free-solid-svg-icons";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../utils/hooks";
+import { logout } from "../../redux/slices/userSlide";
+import { useSelector } from "react-redux";
 
 const navigation = {
   pages: [
@@ -11,8 +16,19 @@ const navigation = {
   ],
 };
 
+const actionDispatch = (dispatch) => ({
+  logout: () => dispatch(logout()),
+});
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const currentUser = useSelector((state) => state.user.user);
+  const { logout } = actionDispatch(useAppDispatch());
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("currentUser", currentUser);
+  }, []);
 
   return (
     <div className="bg-white">
@@ -90,10 +106,7 @@ export default function Navbar() {
       </Transition.Root>
 
       <header className="relative bg-white">
-        <nav
-          aria-label="Top"
-          className="mx-auto max-w-screen-2xl"
-        >
+        <nav aria-label="Top" className="mx-auto max-w-screen-2xl">
           <div className=" border-gray-200">
             <div className="flex h-16 items-center justify-between">
               {/* Flyout menus */}
@@ -132,15 +145,30 @@ export default function Navbar() {
                   </span>
                 </a>
 
-                <a
-                  href="/login"
+                <button
                   className=" ml-6 hidden text-gray-700 hover:text-gray-800 lg:!flex lg:items-center"
+                  onClick={
+                    !currentUser?.name || currentUser?.name === ""
+                      ? () => navigate("/login")
+                      : () => logout()
+                  }
                 >
                   <FontAwesomeIcon className="-ml-1 h-5 w-5" icon={faUser} />
                   <span className="ml-3 block text-sm font-medium italic">
-                    Login
+                    {!currentUser?.name || currentUser?.name === "" ? (
+                      "Login"
+                    ) : (
+                      <div className="flex">
+                        {currentUser.name}
+                        <ChevronDownIcon
+                          className=" h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                          aria-hidden="true"
+                        />
+                        &nbsp;&nbsp;Logout
+                      </div>
+                    )}
                   </span>
-                </a>
+                </button>
               </div>
             </div>
           </div>
