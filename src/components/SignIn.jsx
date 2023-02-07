@@ -1,4 +1,61 @@
-export default function SignIn() {
+import { useState } from "react";
+import { USER_ARRAY } from "../constants/localStorage";
+import { useNavigate } from "react-router-dom";
+import { login } from "../redux/slices/userSlide";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../utils/hooks";
+
+const userArr = JSON.parse(localStorage.getItem(USER_ARRAY));
+const DefaultErrorMsg = "Username or password is incorrect!";
+
+const actionDispatch = (dispatch) => ({
+  login: (currentUser) => dispatch(login(currentUser)),
+});
+
+export default function SignIp() {
+  const navigate = useNavigate();
+  // const email = useSelector((state) => state.user.email);
+  const { login } = actionDispatch(useAppDispatch());
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (handleValidate(form)) {
+      login(form.email);
+      navigate("/");
+    }
+  };
+
+  const handleValidate = (currentForm) => {
+    if (
+      !userArr?.some((user) => user.email === currentForm.email) ||
+      currentForm.password.length <= 8
+    ) {
+      setErrorMsg(DefaultErrorMsg);
+      return false;
+    } else {
+      const currUser = userArr?.find(
+        (user) => user.email === currentForm.email
+      );
+      if (currUser.password !== currentForm.password) {
+        setErrorMsg(DefaultErrorMsg);
+        setForm((prevState) => ({
+          ...prevState,
+          password: "",
+        }));
+        return false;
+      } else {
+        setErrorMsg("");
+        return true;
+      }
+    }
+  };
 
   return (
     <div
@@ -14,7 +71,7 @@ export default function SignIn() {
               Sign In
             </h2>
           </div>
-          <form className="mt-8 space-y-6">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -29,6 +86,13 @@ export default function SignIn() {
                   required
                   className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-4 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Email"
+                  value={form.email}
+                  onChange={(e) =>
+                    setForm((prevState) => ({
+                      ...prevState,
+                      email: e.target.value.trim(),
+                    }))
+                  }
                 />
               </div>
               <div>
@@ -43,10 +107,17 @@ export default function SignIn() {
                   required
                   className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-4 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Password"
+                  value={form.password}
+                  onChange={(e) =>
+                    setForm((prevState) => ({
+                      ...prevState,
+                      password: e.target.value.trim(),
+                    }))
+                  }
                 />
               </div>
             </div>
-
+            {errorMsg !== "" && <p className="text-red-500">{errorMsg}</p>}
             <div>
               <button
                 type="submit"
