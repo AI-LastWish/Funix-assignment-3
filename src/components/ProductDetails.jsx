@@ -6,12 +6,28 @@ import axios from "axios";
 import { TOP_TRENDING } from "../constants/url";
 import CounterInput from "react-counter-input";
 import Product from "./elements/Product";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../utils/hooks";
+import { addCart } from "../redux/slices/cartSlice";
+import { useSelector } from "react-redux";
+
+const actionDispatch = (dispatch) => ({
+  addCart: (item) => dispatch(addCart(item)),
+});
 
 const ProductDetails = () => {
   const { id } = useParams();
 
   const [related, setRelated] = useState(null);
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(0);
+  const { addCart } = actionDispatch(useAppDispatch());
+  const cart = useSelector((state) => state.cart);
+
+  const handleAddCart = () => {
+    const newItem = { [id]: quantity };
+    addCart(newItem);
+  };
 
   const getProduct = async () => {
     const result = await axios.get(TOP_TRENDING);
@@ -86,11 +102,12 @@ const ProductDetails = () => {
                     min={1}
                     count={1}
                     // max={10}
-                    // onCountChange={(count) => console.log(count)}
+                    onCountChange={(count) => setQuantity(count)}
                   />
                   <button
                     type="button"
                     className="inline-flex items-center border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => handleAddCart()}
                   >
                     <span className="ml-3 block text-sm font-medium italic">
                       Add To cart
@@ -100,7 +117,7 @@ const ProductDetails = () => {
                 <div className="text-lg font-thin italic">
                   <span className=" font-bold">RELATED PRODUCTS: </span>
                   {/* Product grid */}
-                  <Product products={related}/>
+                  <Product products={related} />
                 </div>
               </div>
             </div>

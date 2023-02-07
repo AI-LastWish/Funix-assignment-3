@@ -26,10 +26,6 @@ export default function Navbar() {
   const { logout } = actionDispatch(useAppDispatch());
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("currentUser", currentUser);
-  }, []);
-
   return (
     <div className="bg-white">
       {/* Mobile menu */}
