@@ -1,9 +1,19 @@
-import React from 'react'
+import Navbar from "../../components/layout/Navbar";
+import Footer from "../../components/layout/Footer";
+import Banner from "../../components/Banner";
+import CheckoutLayout from "../../components/CheckoutLayout";
 
-const Checkout = () => {
+function Checkout() {
   return (
-    <div>Checkout</div>
-  )
+    <div className="flex flex-col h-screen justify-between">
+      <Navbar />
+      <main className="relative mx-auto max-w-screen-2xl">
+        <Banner />
+        <CheckoutLayout />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
-export default Checkout
+export default Checkout;

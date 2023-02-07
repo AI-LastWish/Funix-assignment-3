@@ -83,7 +83,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="border-t border-gray-200 py-6 px-4">
-                  <a href="#" className="-m-2 flex items-center p-2">
+                  <a href="/cart" className="-m-2 flex items-center p-2">
                     <FontAwesomeIcon
                       className="-ml-1 h-5 w-5"
                       icon={faCartFlatbed}
@@ -133,7 +133,7 @@ export default function Navbar() {
 
               <div className="flex flex-1 items-center justify-end">
                 <a
-                  href="#"
+                  href="/cart"
                   className="hidden text-gray-700 hover:text-gray-800 lg:!flex lg:items-center"
                 >
                   <FontAwesomeIcon
@@ -164,7 +164,7 @@ export default function Navbar() {
                           className=" h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                           aria-hidden="true"
                         />
-                        &nbsp;&nbsp;Logout
+                        &nbsp;&nbsp;( Logout )
                       </div>
                     )}
                   </span>

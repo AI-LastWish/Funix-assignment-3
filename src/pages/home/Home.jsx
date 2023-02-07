@@ -8,7 +8,7 @@ import Newsletter from "../../components/Newsletter";
 
 function Home() {
   return (
-    <div className="app">
+    <div className="flex flex-col h-screen justify-between">
       <Navbar />
       <main className="relative mx-auto max-w-screen-2xl">
         <Banner />

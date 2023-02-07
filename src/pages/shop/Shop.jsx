@@ -5,7 +5,7 @@ import CategoriesLayout from "../../components/layout/CategoriesLayout";
 
 function Shop() {
   return (
-    <div className="app">
+    <div className="flex flex-col h-screen justify-between">
       <Navbar />
       <main className="relative mx-auto max-w-screen-2xl">
         <Banner />

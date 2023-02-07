@@ -8,7 +8,7 @@ const Banner = () => {
     <div className="relative py-16">
       <div className="absolute w-full bg-gradient-to-t from-gray-100 to-transparent bottom-0 z-20" />
       <Carousel
-        // autoPlay
+        autoPlay
         infiniteLoop
         showStatus={false}
         showIndicators={false}
