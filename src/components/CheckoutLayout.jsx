@@ -1,18 +1,15 @@
-import { TrashIcon } from "@heroicons/react/20/solid";
-import CounterInput from "react-counter-input";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../utils/hooks";
-import { updateCart, deleteCart } from "../redux/slices/cartSlice";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
-const actionDispatch = (dispatch) => ({
-  updateCart: (cart) => dispatch(updateCart(cart)),
-  deleteCart: (cart) => dispatch(deleteCart(cart)),
-});
 
 export default function CheckoutLayout() {
+  const cart = useSelector((state) => state.cart.cart);
+
+  const getTotal = () => {
+    let sum = 0;
+    cart.map((product) => (sum += product.price * product.quantity));
+    return sum;
+  };
+
   return (
     <div className="bg-white">
       <div className="">
@@ -113,10 +110,10 @@ export default function CheckoutLayout() {
                       </section>
                       <div className="flex w-full items-center justify-between py-4 bg-gray-50">
                         <a
-                          href="#"
+                          href="/"
                           className="border border-transparent bg-black py-2 px-2 text-base font-normal text-white hover:bg-opacity-75 flex items-center"
                         >
-                          Place your order
+                          Place order
                         </a>
                       </div>
                     </div>
@@ -138,18 +135,31 @@ export default function CheckoutLayout() {
               Your Order
             </h2>
 
-            <dl className="mt-6 space-y-4 italic uppercase">
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-gray-900">$99.00</dd>
-              </div>
+            <dl className="mt-6 space-y-4 italic">
+              {cart.map((product) => (
+                <>
+                  <div className="flex items-center justify-between">
+                    <dt className="text-base text-gray-600">{product?.name}</dt>
+                    <dd className="text-sm font-medium text-gray-900">
+                      <p className=" text-sm text-text_banner font-normal">
+                        {" "}
+                        {new Intl.NumberFormat("de-DE").format(
+                          product?.price * product?.quantity
+                        )}{" "}
+                        VND x {product?.quantity}
+                      </p>
+                    </dd>
+                  </div>
+                </>
+              ))}
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="text-base  text-gray-600">Order total</dt>
-                <dd className="text-base font-medium text-gray-900">$112.32</dd>
-              </div>
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="text-base  text-gray-600">Total</dt>
-                <dd className="text-base font-medium text-gray-900">$1234</dd>
+                <dt className="text-base  text-gray-600">TOTAL</dt>
+                <dd className="text-base font-medium text-gray-900">
+                  <p className=" text-xl font-normal">
+                    {" "}
+                    {new Intl.NumberFormat("de-DE").format(getTotal())} VND
+                  </p>
+                </dd>
               </div>
             </dl>
           </section>

@@ -1,11 +1,9 @@
 import { TrashIcon, GiftIcon } from "@heroicons/react/20/solid";
 import CounterInput from "react-counter-input";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../utils/hooks";
 import { updateCart, deleteCart } from "../redux/slices/cartSlice";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 const actionDispatch = (dispatch) => ({
   updateCart: (cart) => dispatch(updateCart(cart)),
@@ -15,7 +13,6 @@ const actionDispatch = (dispatch) => ({
 export default function ShoppingCart() {
   const cart = useSelector((state) => state.cart.cart);
   const { updateCart, deleteCart } = actionDispatch(useAppDispatch());
-  const navigate = useNavigate();
 
   const handleAddCart = (count, productId) => {
     const newCart = structuredClone(
@@ -142,7 +139,9 @@ export default function ShoppingCart() {
                               </td>
                               <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <button
-                                  onClick={() => deleteCart(product?._id?.["$oid"])}
+                                  onClick={() =>
+                                    deleteCart(product?._id?.["$oid"])
+                                  }
                                   className="text-black hover:text-indigo-900"
                                 >
                                   <TrashIcon
