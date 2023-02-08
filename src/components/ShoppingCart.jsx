@@ -2,19 +2,35 @@ import { TrashIcon, GiftIcon } from "@heroicons/react/20/solid";
 import CounterInput from "react-counter-input";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../utils/hooks";
+import { updateCart, deleteCart } from "../redux/slices/cartSlice";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member",
-  },
-  // More people...
-];
+const actionDispatch = (dispatch) => ({
+  updateCart: (cart) => dispatch(updateCart(cart)),
+  deleteCart: (cart) => dispatch(deleteCart(cart)),
+});
 
 export default function ShoppingCart() {
+  const cart = useSelector((state) => state.cart.cart);
+  const { updateCart, deleteCart } = actionDispatch(useAppDispatch());
   const navigate = useNavigate();
+
+  const handleAddCart = (count, productId) => {
+    const newCart = structuredClone(
+      cart.find((x) => x?._id?.["$oid"] === productId)
+    );
+    newCart.quantity = count;
+    updateCart(newCart);
+  };
+
+  const getTotal = () => {
+    let sum = 0;
+    cart.map((product) => (sum += product.price * product.quantity));
+    return sum;
+  };
+
   return (
     <div className="bg-white">
       <div className="">
@@ -74,39 +90,66 @@ export default function ShoppingCart() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
-                          {people.map((person) => (
-                            <tr key={person.email}>
+                          {cart.map((product) => (
+                            <tr key={product?._id?.["$oid"]}>
                               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                {person.name}
+                                <div className="group aspect-w-2 aspect-h-1 overflow-auto sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 hover:cursor-pointer">
+                                  <img
+                                    className="object-cover object-center group-hover:opacity-75"
+                                    src={product?.img1}
+                                    alt={product?.name}
+                                  />
+                                  <div
+                                    aria-hidden="true"
+                                    className="bg-gradient-to-b from-transparent to-black opacity-50"
+                                  />
+                                </div>
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.title}
+                                {product?.name}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.title}
+                                <p className=" text-xl font-normal">
+                                  {" "}
+                                  {new Intl.NumberFormat("de-DE").format(
+                                    product?.price
+                                  )}{" "}
+                                  VND
+                                </p>
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <CounterInput
                                   min={1}
-                                  count={1}
+                                  count={product?.quantity}
                                   // max={10}
-                                  // onCountChange={(count) => console.log(count)}
+                                  onCountChange={(count) => {
+                                    handleAddCart(
+                                      count,
+                                      product?._id?.["$oid"]
+                                    );
+                                  }}
                                 />
                               </td>
 
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.role}
+                                <p className=" text-xl font-normal">
+                                  {" "}
+                                  {new Intl.NumberFormat("de-DE").format(
+                                    product?.price * product?.quantity
+                                  )}{" "}
+                                  VND
+                                </p>
                               </td>
                               <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a
-                                  href="#"
+                                <button
+                                  onClick={() => deleteCart(product?._id?.["$oid"])}
                                   className="text-black hover:text-indigo-900"
                                 >
                                   <TrashIcon
                                     className="h-5 w-5"
                                     aria-hidden="true"
                                   />
-                                </a>
+                                </button>
                               </td>
                             </tr>
                           ))}
@@ -114,7 +157,7 @@ export default function ShoppingCart() {
                       </table>
                       <div className="flex w-full items-center justify-between p-4 bg-gray-50 italic">
                         <a
-                          href="#"
+                          href="/shop"
                           className="rounded-md border border-transparent py-2 px-4 text-base font-normal text-gray-600 hover:bg-opacity-75 flex items-center"
                         >
                           <ArrowLeftIcon
@@ -157,11 +200,21 @@ export default function ShoppingCart() {
             <dl className="mt-6 space-y-4 italic uppercase">
               <div className="flex items-center justify-between">
                 <dt className="text-base text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-gray-900">$99.00</dd>
+                <dd className="text-sm font-medium text-gray-900">
+                  <p className=" text-xl font-normal">
+                    {" "}
+                    {new Intl.NumberFormat("de-DE").format(getTotal())} VND
+                  </p>
+                </dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base  text-gray-600">Order total</dt>
-                <dd className="text-base font-medium text-gray-900">$112.32</dd>
+                <dd className="text-base font-medium text-gray-900">
+                  <p className=" text-xl font-normal">
+                    {" "}
+                    {new Intl.NumberFormat("de-DE").format(getTotal())} VND
+                  </p>
+                </dd>
               </div>
             </dl>
 

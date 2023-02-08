@@ -20,12 +20,11 @@ const ProductDetails = () => {
 
   const [related, setRelated] = useState(null);
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const { addCart } = actionDispatch(useAppDispatch());
-  const cart = useSelector((state) => state.cart);
 
   const handleAddCart = () => {
-    const newItem = { [id]: quantity };
+    const newItem = { ...product, quantity: quantity };
     addCart(newItem);
   };
 

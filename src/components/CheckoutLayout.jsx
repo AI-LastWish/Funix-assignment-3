@@ -1,16 +1,16 @@
 import { TrashIcon } from "@heroicons/react/20/solid";
 import CounterInput from "react-counter-input";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../utils/hooks";
+import { updateCart, deleteCart } from "../redux/slices/cartSlice";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member",
-  },
-  // More people...
-];
+const actionDispatch = (dispatch) => ({
+  updateCart: (cart) => dispatch(updateCart(cart)),
+  deleteCart: (cart) => dispatch(deleteCart(cart)),
+});
 
 export default function CheckoutLayout() {
   return (
